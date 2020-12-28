@@ -17,25 +17,26 @@
 
   <body>
 
+    <!--Scoreboard-->
+  
+    <ul class="nav w-100 nav-fill sticky-top flex-column flex-md-row" id="scoreboard">
+      <li class="nav-item">
+        <button type="button" class="btn btn-secondary">Instructions</button>
+        <button type="button" id="start" class="btn btn-primary" onclick ="start()" >Start</button>
+        <button type="button" id="finish" class="btn btn-danger" onclick ="finish()">Finish</button>
+      </li>
+      <li class="nav-item">
+        <h5 id="time">Time: 30:00</h5>
+        <h5 id="tries">Tries Left: 18</h5>
+      </li>
+      <li class="nav-item">
+        <h5 id="rawscore">Raw score: 10</h5>
+        <h5 id="finalscore">Final score: 81920</h5>
+      </li>
 
-    <ul class="nav w-100 nav-fill sticky-top" id="scoreboard">
-        <li class="nav-item">
-          <button type="button" id="start" class="btn btn-primary btn-sm" onclick ="start()" >Start</button>
-          <button type="button" id="finish" class="btn btn-danger btn-sm" onclick ="finish()">Finish</button>
-        </li>
-        <li class="nav-item" id="time">
-          Time: 30:00
-        </li>
-        <li class="nav-item" id="tries">
-          Tries: 18
-        </li>
-        <li class="nav-item" id="rawscore">
-          Raw Score: 10
-        </li>
-        <li class="nav-item" id="finalscore">
-          Final Score: 81920
-        </li>
     </ul>
+
+
 
 
     <!--The gameboard which holds the question cards-->
