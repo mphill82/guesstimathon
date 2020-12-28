@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Guesstimathon</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">  
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  </head>
+
+  <body>
+
+    <!--The scoreboard that sticks to the top after scrolling-->
+    <div class="container-fluid sticky-top" id="scoreboard">
+      <div class="row">
+        <div class="col col-4 col-lg-2" >
+          <div class="sboarditem">
+            <button type="button" id="start" class="btn btn-success btn-sm" onclick ="start()" >Start</button>
+            <button type="button" id="finish" class="btn btn-danger btn-sm" onclick ="finish()" disabled>Finish</button>
+          </div>
+        </div>
+        <div class="col col-4 col-lg-2" ><div class="sboarditem" id="time">Time: 30:00</div></div>
+        <div class="col col-4 col-lg-2" ><div class="sboarditem" id="triesleft">Tries Left: 18</div></div>
+        <div class="col col-4 col-lg-2" ><div class="sboarditem" id="correct">Correct: 0</div></div>
+        <div class="col col-4 col-lg-2" ><div class="sboarditem" id="rawscore">Raw Score: 10</div></div>
+        <div class="col col-4 col-lg-2" ><div class="sboarditem" id="finalscore">Final Score: 81920</div></div>
+      </div>
+    </div>
+
+    <!--The Instructions Accordian-->
+    <div class="container-fluid" >
+      <div class="accordion accordion-flush">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="collapsedContr">
+              Instructions
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">You will have 30 minutes to work on 13 estimation problems below. The answer to each problem is a positive number. You will submit an interval (a,b) for each problem. Intervals may not contain negative numbers or zero.  You may not use the internet, or your calculator/smartphone, or any other type of external reference material.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              Scoring
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body"> The goal is the keep your score as low as possible.  An interval is correct if it contains the correct answer and the number of correctly submitted intervals is given by "Correct" below. Your score starts at 10 and we add the floor of b divided by a for each good interval.  (Will replace with inline math formula). Floor just means round down. This sum is given by "Sum Score" below.  The game ends when you use all your tries, you click finish, or time runs out. Your final score is given by the score sum doubled for each incorrect or unanswered question.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+              Examples
+            </button>
+          </h2>
+          <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <p>At the 2016 Rio de Janeiro Summer Olympics, 812 gold medals were awarded. Suppose you guessed the interval (400,1100).  This is a good interval, so we add the floor of 1100/400=2.75, which is 2, to your score.</p> 
+              <p>Suppose instead you guessed (10,1000).  This is still a good interval but now you are adding 1000/10=100 to your score, a large penalty for a large interval.  Remember, you want a low score.  
+              </p>Finally, let's say you guessed (300,600).  This is a bad interval which means the sum of all your good scores gets doubled.  This is also a large penalty. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--The gameboard which holds the question cards-->
+    <div id="gameboard">
+      <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
+
+        <!--Question 1 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 1</div>
+
+                <div class="col" id="q1_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q1_question" style="display:none">
+              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
+              <p class="card-text" id="q1_answer" style="display:none">Answer: 812</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q1_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q1_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q1_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 1 card-->
+
+        <!--Question 2 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 2</div>
+
+                <div class="col" id="q2_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q2_question" style="display:none">
+              <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
+              <p class="card-text" id="q2_answer" style="display:none">Answer: 256022</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q2_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q2_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q2_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 2 card-->
+
+        <!--Question 3 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 3</div>
+
+                <div class="col" id="q3_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q3_question" style="display:none">
+              <p class="card-text">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+              <p class="card-text" id="q3_answer" style="display:none">Answer: 0.0567</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q3_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q3_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q3_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 3 card-->
+
+        <!--Question 4 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 4</div>
+
+                <div class="col" id="q4_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q4_question" style="display:none">
+              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
+              <p class="card-text" id="q4_answer" style="display:none">Answer: 812</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q4_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q4_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q4_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 4 card-->
+        
+        <!--Question 5 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 5</div>
+
+                <div class="col" id="q5_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q5_question" style="display:none">
+              <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
+              <p class="card-text" id="q5_answer" style="display:none">Answer: 256022</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q5_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q5_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q5_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 5 card-->
+        
+        <!--Question 6 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 6</div>
+
+                <div class="col" id="q6_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q6_question" style="display:none">
+              <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+              <p class="card-text" id="q6_answer" style="display:none">Answer: 0.0567</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q6_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q6_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q6_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 6 card-->
+
+        <!--Question 7 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 7</div>
+
+                <div class="col" id="q7_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q7_question" style="display:none">
+              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
+              <p class="card-text" id="q7_answer" style="display:none">Answer: 812</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q7_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q7_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q7_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 7 card-->
+
+        <!--Question 8 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 8</div>
+
+                <div class="col" id="q8_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q8_question" style="display:none">
+              <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
+              <p class="card-text" id="q8_answer" style="display:none">Answer: 256022</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q8_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q8_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q8_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 8 card-->
+
+        <!--Question 9 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 9</div>
+
+                <div class="col" id="q9_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q9_question" style="display:none">
+              <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+              <p class="card-text" id="q9_answer" style="display:none">Answer: 0.0567</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q9_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q9_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q9_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 9 card-->
+
+        <!--Question 10 card-->
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">Question 10</div>
+
+                <div class="col" id="q1_status" style="text-align: right">
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="q10_question" style="display:none">
+              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
+              <p class="card-text" id="q10_answer" style="display:none">Answer: 812</p>
+            </div>
+            <div class="card-footer">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">(</span>
+                <input id="q10_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">,</span>
+                <input id="q10_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                <span class="input-group-text">)</span>
+                <button id="q10_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end question 10 card-->
+        
+                <!--Question 11 card-->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-header">
+                      <div class="row">
+                        <div class="col">Question 11</div>
+        
+                        <div class="col" id="q11_status" style="text-align: right">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body" id="q11_question" style="display:none">
+                      <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
+                      <p class="card-text" id="q11_answer" style="display:none">Answer: 256022</p>
+                    </div>
+                    <div class="card-footer">
+                      <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text">(</span>
+                        <input id="q11_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                        <span class="input-group-text">,</span>
+                        <input id="q11_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                        <span class="input-group-text">)</span>
+                        <button id="q11_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end question 11 card-->
+        
+                <!--Question 12 card-->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-header">
+                      <div class="row">
+                        <div class="col">Question 12</div>
+        
+                        <div class="col" id="q12_status" style="text-align: right">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body" id="q12_question" style="display:none">
+                      <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                      <p class="card-text" id="q12_answer" style="display:none">Answer: 0.0567</p>
+                    </div>
+                    <div class="card-footer">
+                      <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text">(</span>
+                        <input id="q12_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                        <span class="input-group-text">,</span>
+                        <input id="q12_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                        <span class="input-group-text">)</span>
+                        <button id="q12_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end question 12 card-->
+
+                <!--Question 13 card-->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-header">
+                      <div class="row">
+                        <div class="col">Question 13</div>
+        
+                        <div class="col" id="q13_status" style="text-align: right">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body" id="q13_question" style="display:none">
+                      <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                      <p class="card-text" id="q13_answer" style="display:none">Answer: 0.0567</p>
+                    </div>
+                    <div class="card-footer">
+                      <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text">(</span>
+                        <input id="q13_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                        <span class="input-group-text">,</span>
+                        <input id="q13_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
+                        <span class="input-group-text">)</span>
+                        <button id="q13_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end question 13 card-->
+
+      </div>
+  </div>
+
+    <p class="sexy" style="display:none">yasssss</p>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <script src="main.js"></script>
+  </body>
+</html>
