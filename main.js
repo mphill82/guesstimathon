@@ -62,7 +62,7 @@ function start() {
     //enable inputs and buttons
     updateDisplay(true);
     //start the timer
-    timer(1);
+    timer(30);
 }
 
 function finish() {
