@@ -7,425 +7,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
   
-    <!--My CSS and JS-->
+    <!--JQUERY CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!--My CSS-->
     <link rel="stylesheet" href="style.css">
-    <script rel="stylesheet" src="main.js"></script>
+    
   </head>
 
   <body>
 
     <!--Scoreboard-->
-  
     <ul class="nav w-100 nav-fill sticky-top flex-column flex-md-row" id="scoreboard">
       <li class="nav-item">
-        <button type="button" class="btn btn-secondary">Instructions</button>
-        <button type="button" id="start" class="btn btn-primary" onclick ="start()" >Start</button>
-        <button type="button" id="finish" class="btn btn-danger" onclick ="finish()">Finish</button>
+        <button type="button" id="instructionbutton" class="btn btn-secondary">Instructions</button>
+        <button type="button" id="start" class="btn btn-primary">Start</button>
+        <button type="button" id="finish" class="btn btn-danger" disabled>Finish</button>
       </li>
       <li class="nav-item">
-        <h5 id="time">Time: 30:00</h5>
-        <h5 id="tries">Tries Left: 18</h5>
+        <h6 id="time">Time: 30:00</h6>
+        <h6 id="tries">Tries Left: 18</h6>
       </li>
       <li class="nav-item">
-        <h5 id="rawscore">Raw score: 10</h5>
-        <h5 id="finalscore">Final score: 81920</h5>
+        <h6 id="rawscore">Raw score: 10</h6>
+        <h6 id="finalscore">Final score: 81920</h6>
       </li>
-
     </ul>
 
-
-
-
-    <!--The gameboard which holds the question cards-->
-    <div id="gameboard">
-      <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-3">
-
-        <!--Question 1 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 1</div>
-
-                <div class="col" id="q1_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q1_question" style="display:none">
-              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
-              <p class="card-text" id="q1_answer" style="display:none">Answer: 812</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q1_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q1_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q1_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 1 card-->
-
-        <!--Question 2 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 2</div>
-
-                <div class="col" id="q2_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q2_question" style="display:none">
-              <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
-              <p class="card-text" id="q2_answer" style="display:none">Answer: 256022</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q2_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q2_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q2_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 2 card-->
-
-        <!--Question 3 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 3</div>
-
-                <div class="col" id="q3_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q3_question" style="display:none">
-              <p class="card-text">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-              <p class="card-text" id="q3_answer" style="display:none">Answer: 0.0567</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q3_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q3_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q3_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 3 card-->
-
-        <!--Question 4 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 4</div>
-
-                <div class="col" id="q4_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q4_question" style="display:none">
-              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
-              <p class="card-text" id="q4_answer" style="display:none">Answer: 812</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q4_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q4_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q4_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 4 card-->
-        
-        <!--Question 5 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 5</div>
-
-                <div class="col" id="q5_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q5_question" style="display:none">
-              <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
-              <p class="card-text" id="q5_answer" style="display:none">Answer: 256022</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q5_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q5_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q5_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 5 card-->
-        
-        <!--Question 6 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 6</div>
-
-                <div class="col" id="q6_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q6_question" style="display:none">
-              <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-              <p class="card-text" id="q6_answer" style="display:none">Answer: 0.0567</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q6_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q6_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q6_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 6 card-->
-
-        <!--Question 7 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 7</div>
-
-                <div class="col" id="q7_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q7_question" style="display:none">
-              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
-              <p class="card-text" id="q7_answer" style="display:none">Answer: 812</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q7_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q7_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q7_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 7 card-->
-
-        <!--Question 8 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 8</div>
-
-                <div class="col" id="q8_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q8_question" style="display:none">
-              <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
-              <p class="card-text" id="q8_answer" style="display:none">Answer: 256022</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q8_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q8_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q8_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 8 card-->
-
-        <!--Question 9 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 9</div>
-
-                <div class="col" id="q9_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q9_question" style="display:none">
-              <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-              <p class="card-text" id="q9_answer" style="display:none">Answer: 0.0567</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q9_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q9_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q9_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 9 card-->
-
-        <!--Question 10 card-->
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-header">
-              <div class="row">
-                <div class="col">Question 10</div>
-
-                <div class="col" id="q1_status" style="text-align: right">
-                </div>
-              </div>
-            </div>
-            <div class="card-body" id="q10_question" style="display:none">
-              <p class="card-text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco?</p>
-              <p class="card-text" id="q10_answer" style="display:none">Answer: 812</p>
-            </div>
-            <div class="card-footer">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">(</span>
-                <input id="q10_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">,</span>
-                <input id="q10_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                <span class="input-group-text">)</span>
-                <button id="q10_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end question 10 card-->
-        
-                <!--Question 11 card-->
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <div class="row">
-                        <div class="col">Question 11</div>
-        
-                        <div class="col" id="q11_status" style="text-align: right">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body" id="q11_question" style="display:none">
-                      <p class="card-text" >Inventore veritatis et quasi architecto beatae vitae?</p>
-                      <p class="card-text" id="q11_answer" style="display:none">Answer: 256022</p>
-                    </div>
-                    <div class="card-footer">
-                      <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text">(</span>
-                        <input id="q11_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                        <span class="input-group-text">,</span>
-                        <input id="q11_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                        <span class="input-group-text">)</span>
-                        <button id="q11_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--end question 11 card-->
-        
-                <!--Question 12 card-->
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <div class="row">
-                        <div class="col">Question 12</div>
-        
-                        <div class="col" id="q12_status" style="text-align: right">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body" id="q12_question" style="display:none">
-                      <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-                      <p class="card-text" id="q12_answer" style="display:none">Answer: 0.0567</p>
-                    </div>
-                    <div class="card-footer">
-                      <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text">(</span>
-                        <input id="q12_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                        <span class="input-group-text">,</span>
-                        <input id="q12_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                        <span class="input-group-text">)</span>
-                        <button id="q12_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--end question 12 card-->
-
-                <!--Question 13 card-->
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <div class="row">
-                        <div class="col">Question 13</div>
-        
-                        <div class="col" id="q13_status" style="text-align: right">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body" id="q13_question" style="display:none">
-                      <p class="card-text" >Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-                      <p class="card-text" id="q13_answer" style="display:none">Answer: 0.0567</p>
-                    </div>
-                    <div class="card-footer">
-                      <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text">(</span>
-                        <input id="q13_a" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                        <span class="input-group-text">,</span>
-                        <input id="q13_b" type="text" class="form-control answer_field" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled=true>
-                        <span class="input-group-text">)</span>
-                        <button id="q13_submit" type="button" class="btn btn-primary btn-sm submit_button" disabled=true>Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--end question 13 card-->
-
+    <!--Gameboard-->
+    <div>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3" id="gameboard">
+          <!--Javascript will populate this area with a card for each question in the questionset array-->
       </div>
-  </div>
+    </div>
 
 
 
     <!-- Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <!--My JS-->
+    <script rel="stylesheet" src="main.js"></script>
+
   </body>
 </html>
