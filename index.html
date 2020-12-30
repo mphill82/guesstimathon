@@ -21,45 +21,51 @@
 </head>
 
 <body>
-
-  <!--Scoreboard-->
-  <ul class="nav w-100 nav-fill sticky-top flex-column flex-md-row" id="scoreboard">
+  <!--Titleboard-->
+  <ul class="nav w-100 nav-fill" id="titleboard">
     <li class="nav-item">
-      <h2>Guesstimathon</h2>
-
-    </li>
-    <li class="nav-item">
-      <button type="button" id="start" class="btn btn-primary">Start</button>
-      <button type="button" id="finish" class="btn btn-danger" disabled>Finish</button>
-    </li>
-    <li class="nav-item">
-      <h6 id="time">Time: 30:00</h6>
-      <h6 id="tries">Tries Left: 18</h6>
-    </li>
-    <li class="nav-item">
-      <h6 id="rawscore">Raw score: 10</h6>
-      <h6 id="finalscore">Final score: 8192</h6>
+        <h1>Guesstimathon</h1>
     </li>
   </ul>
+  <!--Scoreboard-->
+  <ul class="nav w-100  sticky-top" id="scoreboard">
+    <li class="nav-item">
+      <button type="button" id="start" class="btn btn-primary btn-sm">Start</button>
+      <button type="button" id="finish" class="btn btn-danger btn-sm" disabled>Finish</button>
+    </li>
+    <li class="nav-item">
+      <div id="time">Time: 30:00</div>
+    </li>
+    <li class="nav-item">
+      <div id="tries">Tries: 18</div>
+    </li>
+    <li class="nav-item">
+      <div id="correct">Correct: 0</div>
+    </li>
+    <li class="nav-item">
+      <div id="score">Score: 10</div>
+    </li>
+
+  </ul>
+
+<!--Instruction board-->
   <div id="instructionboard">
-    <p><h5 style="display:inline">Instructions: </h5>Guess the positive answer to each question by submitting a positive lower and upper bound.
+    <p><h6 style="display:inline;font-weight: bold;">Instructions: </h6>Guess the positive answer to each question by submitting a positive lower and upper bound.
       The game ends when the time is up or you use all your tries. You can answer a question as many times as you like
       but you only get 18 tries total.</p>
 
-    <p><h5 style="display:inline">Scoring: </h5>Get the lowest score by answering correctly with small intervals. A correct interval (a,b) will
-      add
-      b/a (rounded down) to the raw score so a small interval is best. Each incorrect or unanswered question doubles
-      your raw score to
-      give your final score. Your raw score starts at 10.  Your final score starts at 8192 because 10 doubled 13 times for the unanswered questions is 8192.
+    <p><h6 style="display:inline;font-weight: bold;">Scoring: </h6>Try to get a low score by answering correctly with small intervals. A correct interval (a,b) will
+      add b/a (rounded down) to your score so a small interval is best.  Each question left incorrect or unanswered will double your final score.
     </p>
 
-    <p><h5 style="display:inline">Examples: </h5>Abraham guesses there are (40,55) states in the US, Brian guesses (33,89), and
-      Charlie guesses (55,60). Abraham is correct with a relatively small interval and 55/40=1.375 so we round down and
+    <p><h6 style="display:inline;font-weight: bold;">Examples: </h6>Abraham guesses there are (49,55) states in the US, Brian guesses (33,89), and
+      Charlie guesses (55,60). Abraham is correct with a relatively small interval and 55/49=1.122 so we round down and
       add only 1
-      his raw score. Brain is also correct with a larger interval and 89/33=2.69 so we round down and add 2 to his raw
-      score. Neither Abraham's for Brian's final score will get doubled for this question. Charlie's final score gets
+      his score. Brain is also correct with a larger interval and 89/33=2.69 so we round down and add 2 to his
+      score. Neither Abraham's nor Brian's final score will get doubled for this question. Charlie's final score gets
       doubled because his interval does not contain the correct answer.</p>
   </div>
+
 
   <!--Gameboard-->
   <div>

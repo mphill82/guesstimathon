@@ -1,24 +1,16 @@
 
 var displayTimeRemaining;
 var tries = 18;
-var correct = new Array();  //this array will store 0 for each incorrect question and floor(b/a) for each correct question.  it will unpdate each time an answer is submitted.
-var rawscore = 10;
-var finalscore = 81920;
+var correctlist = new Array();  //this array will store 0 for each incorrect question and floor(b/a) for each correct question.  it will unpdate each time an answer is submitted.
+var score = 10;
 
 
-var questionset = [["How many steps to the top of the Eiffel tower?", 674],
-["How many gold medals were given at the 2016 Summer Olympic Games?", 307],
-["Evaluate ln(ln(1000000)) rounded to the nearest thousandth.", 2.626],
-["The number of digits in 2018! (that is, 2018 factorial)", 5795],
-["How many millions of twitter followers did Beyoncé have on 12-29-2020, rounded to the nearest tenth?", 15.7],
+var questionset = [["How many athletes competed in the fist Winter Olympic Games?", 258],
+["how many digits are in 500! (that is, 500 factorial)?", 1135],
 ["How many three digit prime numbers are there?", 143],
-["", ],
-["", ],
-["", ],
-["", ],
-["", ],
-["", ],
-["", ],
+["How many stone blocks are in the Washington Monument?", 36491],
+["How much does a Tesla model XS SUV with maximum configurations weigh in lbs?", 5531],
+["How many words are in Moby Dick?", 206052]
 ];
 
 //run after the HTML loads                    
@@ -32,7 +24,7 @@ $(function () {
     });
     //create a card for each question in the questionset array and place them in the gameboard
     for (i = 0; i < questionset.length; i++) {
-        correct.push(0); //sets default value to 0 for incorrect for each question.
+        correctlist.push(0); //sets default value to 0 for incorrect for each question.
         htmltext = "<div class='col'>\
                         <div class='card h-100'>\
                             <div class='card-header'>\
@@ -70,10 +62,18 @@ function start() {
 }
 
 function finish() {
-    //disable inputs and buttons
-    updateDisplay(false);
     //stop the timer
     timer(0);
+    //calculate the final score
+    for (x of correctlist){
+        if (!x){
+            score*=2;
+        }
+    }
+    $("#score").text("Score: " + score);
+    //disable inputs and buttons
+    updateDisplay(false);
+
 }
 
 function updateDisplay(state) {
@@ -165,7 +165,8 @@ function submit(buttonelement) {
         //check if the answer is incorrect
         if ((answer < a) || (answer > b)) {
             console.log("incorrect");
-            correct[n - 1] = 0;
+            correctlist[n - 1] = 0;
+            console.log(correctlist);
             $("#q" + n + "_status").html("Incorrect <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-x-circle' viewBox='0 0 16 16'>\
             <path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/>\
             <path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/>\
@@ -176,8 +177,8 @@ function submit(buttonelement) {
         //the answer must be correct
         else {
             console.log("correct");
-            correct[n - 1] = Math.floor(b / a);
-            console.log(correct[n - 1]);
+            correctlist[n - 1] = Math.floor(b / a);
+            console.log(correctlist);
             $("#q" + n + "_status").html("Correct <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='Green' class='bi bi-check-circle-fill' viewBox='0 0 16 16'>\
             <path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/>\
             </svg>");
@@ -187,20 +188,20 @@ function submit(buttonelement) {
 
         //update scoreboard variables
         tries--;
-        rawscore=10;
-        incorrect=0;
-        for (x of correct){
-            rawscore+=x;
-            if (x==0){
-                incorrect++;
+        score=10;
+        correctcount=0;
+        for (x of correctlist){
+            score+=x;
+            if (x){
+                correctcount++;
             }
         }
-        finalscore=rawscore*(2**incorrect);
 
         //update scoreboard display
-        $("#tries").text("Tries Left: " + tries);
-        $("#rawscore").text("Raw score: " + rawscore);
-        $("#finalscore").text("Final score: " + finalscore);
+        $("#tries").text("Tries: " + tries);
+        $("#score").text("Score: " + score);
+        $("#correct").text("Correct: " + correctcount);
+
         
         //end games if tries reaches 0
         if (tries==0){
