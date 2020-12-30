@@ -9,13 +9,17 @@ var finalscore = 81920;
 var questionset = [["How many steps to the top of the Eiffel tower?", 674],
 ["How many gold medals were given at the 2016 Summer Olympic Games?", 307],
 ["Evaluate ln(ln(1000000)) rounded to the nearest thousandth.", 2.626],
-["How many toes do Hemingway's cats have?", 6],["How many steps to the top of the Eiffel tower?", 674],
-["How many gold medals were given at the 2016 Summer Olympic Games?", 307],
-["Evaluate ln(ln(1000000)) rounded to the nearest thousandth.", 2.626],
-["How many toes do Hemingway's cats have?", 6],["How many steps to the top of the Eiffel tower?", 674],
-["How many gold medals were given at the 2016 Summer Olympic Games?", 307],
-["Evaluate ln(ln(1000000)) rounded to the nearest thousandth.", 2.626],
-["How many toes do Hemingway's cats have?", 6],["How many steps to the top of the Eiffel tower?", 674]];
+["The number of digits in 2018! (that is, 2018 factorial)", 5795],
+["How many millions of twitter followers did Beyoncé have on 12-29-2020, rounded to the nearest tenth?", 15.7],
+["How many three digit prime numbers are there?", 143],
+["", ],
+["", ],
+["", ],
+["", ],
+["", ],
+["", ],
+["", ],
+];
 
 //run after the HTML loads                    
 $(function () {
@@ -142,6 +146,7 @@ function timer(state) {
 }
 
 function submit(buttonelement) {
+    //get input data
     n = buttonelement.id.replace("_submit", "").replace("q", "");
     a = parseInt($("#q" + n + "_a").val());
     b = parseInt($("#q" + n + "_b").val());
@@ -158,7 +163,7 @@ function submit(buttonelement) {
     }
     else{
         //check if the answer is incorrect
-        if ((answer <= a) || (answer >= b)) {
+        if ((answer < a) || (answer > b)) {
             console.log("incorrect");
             correct[n - 1] = 0;
             $("#q" + n + "_status").html("Incorrect <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-x-circle' viewBox='0 0 16 16'>\
