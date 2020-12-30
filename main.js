@@ -9,7 +9,7 @@ var questionset = [["How many athletes competed in the fist Winter Olympic Games
 ["how many digits are in 500! (that is, 500 factorial)?", 1135],
 ["How many three digit prime numbers are there?", 143],
 ["How many stone blocks are in the Washington Monument?", 36491],
-["How much does a Tesla model XS SUV with maximum configurations weigh in lbs?", 5531],
+["How much does a Tesla model X SUV with maximum configurations weigh in lbs?", 5531],
 ["How many words are in Moby Dick?", 206052]
 ];
 
