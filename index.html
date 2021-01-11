@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Guesstimathon</title>
+  <title> Play Guesstimathon</title>
 
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -22,11 +22,14 @@
 
 <body>
   <!--Titleboard-->
-  <ul class="nav w-100 nav-fill" id="titleboard">
+  <ul class="nav w-100" id="titleboard">
     <li class="nav-item">
-        <h1>Guesstimathon</h1>
+      <h1>Guesstimathon</h1>
     </li>
   </ul>
+
+
+
   <!--Scoreboard-->
   <ul class="nav w-100  sticky-top" id="scoreboard">
     <li class="nav-item">
@@ -45,25 +48,31 @@
     <li class="nav-item">
       <div id="score">Score: 10</div>
     </li>
-
   </ul>
 
-<!--Instruction board-->
+  <!--Instruction board-->
   <div id="instructionboard">
-    <p><h6 style="display:inline;font-weight: bold;">Instructions: </h6>Guess the positive answer to each question by submitting a positive lower and upper bound.
-      The game ends when the time is up or you use all your tries. You can answer a question as many times as you like
-      but you only get 18 tries total.</p>
+    <p>
+    <h6 style="display:inline;font-weight: bold;">Instructions: </h6>Guess the positive answer to each question by
+    submitting a positive lower and upper bound.
+    The game ends when the time is up or you use all your tries. You can answer a question as many times as you like
+    but you only get 18 tries total.</p>
 
-    <p><h6 style="display:inline;font-weight: bold;">Scoring: </h6>Try to get a low score by answering correctly with small intervals. A correct interval (a,b) will
-      add b/a (rounded down) to your score so a small interval is best.  Each question left incorrect or unanswered will double your final score.
+    <p>
+    <h6 style="display:inline;font-weight: bold;">Scoring: </h6>Try to get a low score by answering correctly with small
+    intervals. A correct interval (a,b) will
+    add b/a (rounded down) to your score so a small interval is best. Each question left incorrect or unanswered will
+    double your final score.
     </p>
 
-    <p><h6 style="display:inline;font-weight: bold;">Examples: </h6>Abraham guesses there are (49,55) states in the US, Brian guesses (33,89), and
-      Charlie guesses (55,60). Abraham is correct with a relatively small interval and 55/49=1.122 so we round down and
-      add only 1
-      his score. Brain is also correct with a larger interval and 89/33=2.69 so we round down and add 2 to his
-      score. Neither Abraham's nor Brian's final score will get doubled for this question. Charlie's final score gets
-      doubled because his interval does not contain the correct answer.</p>
+    <p>
+    <h6 style="display:inline;font-weight: bold;">Examples: </h6>Abraham guesses there are (49,55) states in the US,
+    Brian guesses (33,89), and
+    Charlie guesses (55,60). Abraham is correct with a relatively small interval and 55/49=1.122 so we round down and
+    add only 1
+    his score. Brain is also correct with a larger interval and 89/33=2.69 so we round down and add 2 to his
+    score. Neither Abraham's nor Brian's final score will get doubled for this question. Charlie's final score gets
+    doubled because his interval does not contain the correct answer.</p>
   </div>
 
 
